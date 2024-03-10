@@ -60,7 +60,7 @@ class EditorData {
         this.currentLine?.textContent?.substring(0, stringIndex) || ""
       )
       width = measureText.width;
-      height = (measureText.actualBoundingBoxAscent + measureText.actualBoundingBoxDescent) * this.currentLineIndex;
+      height = Number.parseFloat((window.getComputedStyle(this.currentLine!).getPropertyValue('line-height'))) * this.currentLineIndex;
     }
     this.caretTextArea!.style.left = `${width}px`;
     this.caretTextArea!.style.top = `${height}px`;

@@ -20,3 +20,16 @@ export function handleEnter () {
   const newLine = createLine();
   EditorData.addLineAtPosition(newLine, EditorData.currentLineIndex + 1);
 }
+export function handlePaste () {
+  if (navigator.clipboard) {
+    navigator.clipboard.readText()
+    .then((data) => {
+      data.split('').forEach((character) => {
+        if (character === '\n') {
+          handleEnter();
+        }
+        else {handlePrintable(character);}
+      })
+    });
+  }
+}

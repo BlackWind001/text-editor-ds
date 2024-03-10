@@ -6,6 +6,7 @@ import {
   handleBackspace,
   handleEnter,
   handleFirstLineCreation,
+  handlePaste,
   handlePrintable,
 } from "./handlers";
 
@@ -37,11 +38,16 @@ function App() {
     event
   ) {
     const code = event.code;
-    let currentChar;
+    let currentChar,
+      isPasteCommand = false;
 
     // initialize the current char in case it is printable.
     if (code.startsWith("Key")) {
       currentChar = event.key;
+
+      if (event.ctrlKey && code === "KeyV") {
+        isPasteCommand = true;
+      }
     }
 
     // ensure that a line exists for the printable character to append to.
@@ -50,7 +56,9 @@ function App() {
     }
 
     if (EditorData.currentLineIndex >= 0) {
-      if (currentChar) {
+      if (isPasteCommand) {
+        handlePaste();
+      } else if (currentChar) {
         handlePrintable(currentChar);
       } else if (code === "Backspace") {
         handleBackspace();
